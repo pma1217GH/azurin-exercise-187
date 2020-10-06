@@ -1,0 +1,208 @@
+/** AUTHOR: Philip Azurin
+ *  COURSE: CPT 187
+ *  PURPOSE:  
+ *          This area holds the customers order of item choices along with the associated prices,
+ *          discounts, and taxes applied. This is also where the calculated cost for the purchase 
+ *          is determined and totaled.
+ *  CREATE DATE:  9.29.2020          		
+ */
+
+
+package edu.cpt187.azurin.exercise6;
+
+
+public class Order
+{
+
+	// declare and initialize constants	
+	private final double TAX_RATE = 0.075;
+
+	// declarations
+
+	// declare and initialize non-constants
+	private int howMany = 0;
+	private int lastItemSelectedIndex = 0;
+	private int itemID = 0;
+	private int discountType = 0;
+	private double itemPrice = 0.0;
+	private double discountRate = 0.0;
+	private String itemName = "";
+	private String discountName = "";
+	private String prizeName = "";
+
+
+	// Class Constructor
+	public Order()
+	{
+	}// end class constructor
+
+	//___________________________________________________________________
+
+	//                                             SETTER methods
+
+	public void setLastItemSelectedIndex(int borrowedSearchIndex)
+	{
+		lastItemSelectedIndex  = borrowedSearchIndex;
+	}//end of setter method
+
+	//__________________________________________________________________________________________
+
+	public void setItemID(int[] borrowedItemIDs)
+	{
+		itemID = borrowedItemIDs[lastItemSelectedIndex];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setItemName(String[] borrowedItemNames)
+	{
+		itemName = borrowedItemNames[lastItemSelectedIndex];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setItemPrice(double[] borrowedItemPrices)
+	{
+		itemPrice = borrowedItemPrices[lastItemSelectedIndex];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setHowMany(String borrowedHowMany)
+	{
+		howMany = Integer.parseInt(borrowedHowMany);
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setDiscountType(char borrowedMenuSelection)
+	{
+		discountType  = (borrowedMenuSelection - 'A');
+	}//end of setter
+	//__________________________________________________________________________________________
+
+	public void setDiscountName(String[] borrowedDiscountNames)
+	{
+		discountName = borrowedDiscountNames[discountType];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setDiscountRate(double[] borrowedDiscountRates)
+	{
+		discountRate = borrowedDiscountRates[discountType];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setPrizeName(String[] borrowedPrizeNames, int borrowedPriceIndex)
+	{
+		prizeName = borrowedPrizeNames[borrowedPriceIndex];
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+	public void setDecreaseInStock(Inventory borrowedInventoryObject)
+	{
+		borrowedInventoryObject.setReduceStock(howMany);
+	}//end of setter method
+	//__________________________________________________________________________________________
+
+
+
+
+	//End of Setter methods
+
+	//__________________________________________________________________________________________
+
+	//                                          GETTER methods
+
+
+
+
+	public int getItemID()
+	{
+		return itemID;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public String getItemName()
+	{
+		return itemName;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public double getItemPrice()
+	{
+		return itemPrice;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public int getHowMany()
+	{
+		return howMany;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public String getDiscountName()
+	{
+		return discountName;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public double getDiscountRate()
+	{
+		return discountRate;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public double getTaxRate()
+	{
+		return TAX_RATE;
+	}//end of getter method
+	//__________________________________________________________________________________________
+
+	public double getDiscountAmt()
+	{
+		return (itemPrice * discountRate);
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	public double getDiscountPrice()
+	{
+		return (itemPrice - getDiscountAmt());
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	public double  getSubTotal()
+	{
+		return (howMany * getDiscountPrice());
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	public double getTaxAmt()
+	{
+		return (getSubTotal() * TAX_RATE);
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	public double getTotalCost()
+	{
+		return (getSubTotal() + getTaxAmt());
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	public String getPrizeName()
+	{
+		return prizeName;
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+
+	public int getInStockCount(int[] borrowedInStockCounts)
+	{
+		return borrowedInStockCounts[lastItemSelectedIndex];
+	}//end of getter method
+	//_________________________________________________________________________________________
+
+	// End of Getter methods
+
+}//end of class
+
+
+
+
+
