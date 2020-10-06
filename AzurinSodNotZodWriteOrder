@@ -1,0 +1,75 @@
+/** AUTHOR: Philip Azurin
+ *  COURSE: CPT 187
+ *  PURPOSE:  
+ *          This is where the customer's purchase information is gathered to create the receipt.
+ *          
+ *  CREATE DATE:  9.29.2020          		
+ */
+
+package edu.cpt187.azurin.exercise6;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class WriteOrder
+{
+	private boolean fileFoundFlag = false;
+	private String masterFileName = "";
+	private int recordCount = 0;
+
+
+	//Class constructor
+	public WriteOrder(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}// end of class constructor
+
+	//_______________________________________________________________
+	
+	
+	//This method writes each individual record search to an external file.
+	public void setWriteOrder(int borrowedItemID, String borrowedItemName, 
+			double borrowedItemPrice, int borrowedHowMany, double borrowedTotalCost)
+	{
+
+		try
+		{
+			PrintWriter filePW = new PrintWriter (new FileWriter(masterFileName, true));
+
+			filePW.printf("%n%d\t%s\t%f\t%d\t%f", borrowedItemID, borrowedItemName, borrowedItemPrice,
+					borrowedHowMany, borrowedTotalCost);
+
+			recordCount++;  //increment counter for number of records written to the file
+			fileFoundFlag = true;
+			filePW.close();
+		}//end of try
+
+		catch (IOException ex)
+		{
+			fileFoundFlag = false;
+		}//End catch
+
+	}//end of setter
+	//_______________________________________________________________
+
+
+	public int getRecordCount()
+	{
+		return recordCount;
+	}// end of getter
+	//__________________________________________________________________________________________
+
+	public String getFileName()
+	{
+		return masterFileName;
+	}// end of getter
+	//__________________________________________________________________________________________
+
+	public boolean getFileFoundFlag()
+	{
+		return fileFoundFlag;
+	}// end of getter
+	//__________________________________________________________________________________________
+
+}//end of class
