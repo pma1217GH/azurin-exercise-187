@@ -1,0 +1,182 @@
+/** AUTHOR: Philip Azurin
+ *  COURSE: CPT 187
+ *  PURPOSE:  
+ *          This area generates customer created accounts with their usernames and passwords. It also validates
+ *          a users entered password against the password on file in the users account.
+ *          
+ *  CREATE DATE:  9.29.2020          		
+ */
+
+package edu.cpt187.azurin.exercise6;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Scanner;
+import java.io.PrintWriter;
+import java.io.FileWriter;
+
+
+public class UserAccounts
+{
+
+	// declare and initialize constants
+	
+	private final int NOT_FOUND = -1;
+	private final int RESET_VALUE = 0;
+	private final int MAXIMUM_RECORDS = 50;
+	
+	
+	
+	private String[] userNames = new String[MAXIMUM_RECORDS];
+	private String[] passwords = new String[MAXIMUM_RECORDS];
+	private String masterFileName;
+	private int recordCount = 0;
+	private int searchedIndex = 0;
+
+	//Class constructor
+	public UserAccounts(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	}// end of class constructor
+
+//                                     SETTERS
+
+	//This method will read an external file that holds the data for user account names and passwords.
+	public void setUserAccountArrays()
+	{
+		try
+		{
+			Scanner infile = new Scanner (new FileInputStream(masterFileName));
+
+			searchedIndex = RESET_VALUE;
+						
+			while (infile.hasNext() == true && searchedIndex < MAXIMUM_RECORDS)
+			{
+				userNames[searchedIndex] = infile.next();
+				passwords[searchedIndex] = infile.next();
+				
+
+				searchedIndex++; //increment counter
+				recordCount++; //increment counter
+			}//end of while
+
+			infile.close(); // close scanner
+		}//end of try
+
+		catch (IOException ex)
+		{
+			searchedIndex = NOT_FOUND;
+		}//End catch
+
+	}//end of method
+	//__________________________________________________________________________
+
+	public void setSearchedIndex(String borrowedUsername)
+	{
+		searchedIndex = getSeqSearch(borrowedUsername);
+	}// end of method
+	//________________________________________________________________
+	
+	public void setSearchedIndex(String borrowedUsername, String borrowedPassword)
+	{
+		searchedIndex = getSeqSearch(borrowedUsername);
+		if (searchedIndex >= RESET_VALUE && getPasswordMatch(borrowedPassword) == false)
+		{
+			searchedIndex = NOT_FOUND;
+		}
+	}// end of method
+	//________________________________________________________________
+	
+	//This methods writes a new user's name and password into the external database.
+	public void setWriteOneRecord(String userName, String borrowedPassword)
+	{
+
+		try
+		{
+			
+			PrintWriter filePW = new PrintWriter (new FileWriter(masterFileName, true));
+
+			filePW.printf("%n%s\t%s", userName, borrowedPassword);
+
+			recordCount++;  //increment counter for number of records written to the file
+			
+			filePW.close();
+		}//end of try
+
+		catch (IOException ex)
+		{
+			
+		}//End catch
+
+	}//end of setter
+	//_______________________________________________________________
+
+	
+	
+	//                                  GETTERS
+	
+	//This method test if a user's name is already in the database.
+	public int getSeqSearch(String borrowedBorrowedUserName)
+	{
+		int localIndex = RESET_VALUE;
+		int localFound = NOT_FOUND;
+		
+		while (localIndex < MAXIMUM_RECORDS)
+		{
+			if (borrowedBorrowedUserName.equalsIgnoreCase(userNames[localIndex]))
+			{
+				localFound = localIndex;
+				localIndex = recordCount;
+			}//end of if
+			else
+			{
+				localIndex++;  //increment counter
+			}//end of else
+		}//end of while
+		
+		return localFound;
+	}// end of getter
+
+	//________________________________________________________________________
+	
+	//This method tests if the user's entered password is valid.
+	public boolean getPasswordMatch(String borrowedBorrowedPassword)
+	{
+			boolean localFound = false;
+		
+			if (borrowedBorrowedPassword.equals(passwords[searchedIndex]))
+			{
+				localFound = true;
+			}//end of if
+					
+		return localFound;
+	}// end of getter
+
+	//________________________________________________________________________
+
+	
+	public int getRecordCount()
+	{
+		return recordCount;
+	}// end of getter
+	//__________________________________________________________________________
+
+	public String getFileName()
+	{
+		return masterFileName;
+	}// end of getter
+	//_________________________________________________________________________
+
+	
+	public int getMaximumRecords()
+	{
+		return MAXIMUM_RECORDS;
+	}// end of getter
+	//__________________________________________________________________________
+
+	public int getSearchedIndex()
+	{
+		return searchedIndex;
+	}// end of getter
+	
+}//end of class
